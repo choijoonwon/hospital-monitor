@@ -1,0 +1,22 @@
+{
+  "naver_client_id": "YOUR_NAVER_CLIENT_ID",
+  "naver_client_secret": "YOUR_NAVER_CLIENT_SECRET",
+  "hospitals": [
+    {
+      "name": "리팅성형외과",
+      "keywords": ["리팅성형외과", "ㄹㅌ", "리팅", "000원장"]
+    },
+    {
+      "name": "강남 피부과",
+      "keywords": ["강남피부과", "강남 피부과"]
+    }
+  ],
+  "search_targets": ["cafe", "blog"],
+  "target_cafes": [
+    "성예사",
+    "여우야"
+  ],
+  "max_results_per_keyword": 30,
+  "delay_min": 2,
+  "delay_max": 5
+}
