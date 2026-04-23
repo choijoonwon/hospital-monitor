@@ -30,7 +30,7 @@
     header h1 { font-size: 17px; font-weight: 700; }
     header .meta { font-size: 12px; opacity: .8; }
 
-    /* ── 상단 통계 ── */
+    /* ── 통계 ── */
     .stats {
       display: flex;
       gap: 12px;
@@ -47,65 +47,121 @@
     .stat-card .value { font-size: 26px; font-weight: 700; color: #1a56db; }
     .stat-card.new .value { color: #e53e3e; }
 
-    /* ── 컨트롤 바 ── */
-    .controls {
+    /* ── 검색바 ── */
+    .search-bar {
       display: flex;
-      gap: 10px;
       align-items: center;
-      padding: 14px 24px;
+      gap: 10px;
+      padding: 16px 24px 0;
       flex-wrap: wrap;
     }
-    select, input {
-      border: 1px solid #d1d5db;
-      border-radius: 6px;
-      padding: 7px 36px 7px 12px;
-      font-size: 13px;
+    .search-inputs {
+      display: flex;
+      gap: 8px;
+      flex: 1;
+      align-items: center;
       background: #fff;
+      border: 1.5px solid #d1d5db;
+      border-radius: 10px;
+      padding: 6px 12px;
+      box-shadow: 0 1px 4px rgba(0,0,0,.06);
+      min-width: 300px;
+    }
+    .search-inputs:focus-within { border-color: #1a56db; }
+    .search-inputs input {
+      border: none;
       outline: none;
-      min-width: 140px;
-      appearance: none;
-      -webkit-appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 12px center;
+      font-size: 13px;
+      padding: 5px 8px;
+      background: transparent;
+      flex: 1;
     }
-    input {
-      background-image: none;
-      padding: 7px 12px;
-      min-width: unset;
+    .search-divider {
+      width: 1px;
+      height: 20px;
+      background: #e5e7eb;
     }
-    input[type="checkbox"] {
-      appearance: auto;
-      -webkit-appearance: checkbox;
-      padding: 0;
-      width: 15px;
-      height: 15px;
-      min-width: unset;
+    .search-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .new-label {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 13px;
+      color: #555;
       cursor: pointer;
+      white-space: nowrap;
     }
-    select:focus, input:focus { border-color: #1a56db; }
+    .new-label input { width: 15px; height: 15px; cursor: pointer; }
 
+    /* ── 버튼 ── */
     .btn {
-      padding: 8px 16px;
-      border-radius: 6px;
+      padding: 9px 18px;
+      border-radius: 8px;
       border: none;
       font-size: 13px;
       cursor: pointer;
       font-weight: 600;
       transition: opacity .15s;
+      white-space: nowrap;
     }
     .btn:hover { opacity: .85; }
     .btn-primary { background: #1a56db; color: #fff; }
     .btn-green   { background: #38a169; color: #fff; }
     .btn-gray    { background: #e2e8f0; color: #444; }
-    .btn-sm      { padding: 5px 10px; font-size: 12px; font-weight: 500; }
 
     #collect-btn.loading { background: #93c5fd; cursor: not-allowed; }
+
+    /* ── 플랫폼 탭 ── */
+    .tabs {
+      display: flex;
+      gap: 4px;
+      padding: 14px 24px 0;
+      border-bottom: 1px solid #e5e7eb;
+      margin: 0 0 0 0;
+    }
+    .tab {
+      padding: 8px 18px;
+      border: none;
+      background: none;
+      font-size: 13px;
+      font-weight: 600;
+      color: #888;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -1px;
+      border-radius: 6px 6px 0 0;
+      transition: color .15s;
+    }
+    .tab:hover { color: #1a56db; background: #f0f4ff; }
+    .tab.active {
+      color: #1a56db;
+      border-bottom-color: #1a56db;
+      background: #fff;
+    }
+    .tab .tab-count {
+      display: inline-block;
+      background: #e5e7eb;
+      color: #555;
+      border-radius: 10px;
+      font-size: 11px;
+      padding: 1px 6px;
+      margin-left: 4px;
+      font-weight: 500;
+    }
+    .tab.active .tab-count { background: #dbeafe; color: #1a56db; }
 
     /* ── 테이블 ── */
     .table-wrap {
       padding: 0 24px 32px;
       overflow-x: auto;
+      background: #fff;
+      margin: 0 24px 24px;
+      border-radius: 0 0 10px 10px;
+      box-shadow: 0 1px 4px rgba(0,0,0,.08);
     }
     table {
       width: 100%;
@@ -113,9 +169,6 @@
       table-layout: fixed;
       border-collapse: collapse;
       background: #fff;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 1px 4px rgba(0,0,0,.08);
     }
     thead th {
       background: #f8fafc;
@@ -138,9 +191,8 @@
       background: transparent;
     }
     thead th .col-resizer:hover,
-    thead th .col-resizer.dragging {
-      background: #1a56db44;
-    }
+    thead th .col-resizer.dragging { background: #1a56db44; }
+
     tbody tr { border-bottom: 1px solid #f0f0f0; }
     tbody tr:hover { background: #f8fafc; }
     tbody tr.is-new { background: #fff8f0; }
@@ -152,27 +204,11 @@
       overflow: hidden;
     }
     td:nth-child(1), td:nth-child(2), td:nth-child(3), td:nth-child(4),
-    td:nth-child(6), td:nth-child(7), td:nth-child(8) {
+    td:nth-child(6), td:nth-child(7) {
       white-space: nowrap;
       text-overflow: ellipsis;
     }
-    .title-cell { word-break: break-word; }
-
-    .badge {
-      display: inline-block;
-      padding: 2px 7px;
-      border-radius: 10px;
-      font-size: 11px;
-      font-weight: 600;
-    }
-    .badge-new    { background: #fed7d7; color: #c53030; }
-    .badge-neg    { background: #c53030; color: #fff; }
-    .badge-neg-warn { background: #f6ad55; color: #7b341e; }
-    .badge-cafe   { background: #bee3f8; color: #2b6cb0; }
-    .badge-blog   { background: #c6f6d5; color: #276749; }
-    .badge-place  { background: #e9d8fd; color: #6b46c1; }
-
-    .title-cell { min-width: 0; }
+    .title-cell { word-break: break-word; min-width: 0; }
     .title-cell a {
       color: #1a56db;
       text-decoration: none;
@@ -182,6 +218,21 @@
     .title-cell a:hover { text-decoration: underline; }
     .desc { color: #555; font-size: 12px; margin-top: 3px; word-break: break-word; }
     .neg-sentence { color: #c53030; font-weight: 600; }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 7px;
+      border-radius: 10px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .badge-new      { background: #fed7d7; color: #c53030; }
+    .badge-neg      { background: #c53030; color: #fff; }
+    .badge-neg-warn { background: #f6ad55; color: #7b341e; }
+    .badge-cafe     { background: #bee3f8; color: #2b6cb0; }
+    .badge-blog     { background: #c6f6d5; color: #276749; }
+    .badge-place    { background: #e9d8fd; color: #6b46c1; }
+
     .keyword-tag {
       display: inline-block;
       background: #ede9fe;
@@ -192,23 +243,9 @@
       margin-right: 4px;
     }
 
-    /* 보고문 복사 버튼 */
-    .copy-btn {
-      background: #f0fdf4;
-      border: 1px solid #86efac;
-      color: #15803d;
-      padding: 4px 8px;
-      border-radius: 5px;
-      font-size: 11px;
-      cursor: pointer;
-      white-space: nowrap;
-    }
-    .copy-btn:hover { background: #dcfce7; }
-    .copy-btn.copied { background: #d1fae5; color: #065f46; }
-
     .empty { text-align: center; padding: 60px; color: #aaa; }
 
-    /* 로딩 오버레이 */
+    /* ── 로딩 오버레이 ── */
     #overlay {
       display: none;
       position: fixed; inset: 0;
@@ -233,7 +270,6 @@
       margin: 0 auto 12px;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
-
     .btn-cancel {
       margin-top: 16px;
       padding: 8px 20px;
@@ -247,78 +283,6 @@
       transition: background .15s, color .15s;
     }
     .btn-cancel:hover { background: #fee2e2; color: #b91c1c; border-color: #fca5a5; }
-
-    /* ── 병원 관리 모달 ── */
-    .modal-bg {
-      display: none; position: fixed; inset: 0;
-      background: rgba(0,0,0,.45); z-index: 300;
-      align-items: center; justify-content: center;
-    }
-    .modal-bg.show { display: flex; }
-    .modal {
-      background: #fff; border-radius: 12px;
-      width: 580px; max-width: 95vw; max-height: 85vh;
-      display: flex; flex-direction: column;
-      box-shadow: 0 8px 32px rgba(0,0,0,.18);
-    }
-    .modal-header {
-      padding: 18px 20px 14px;
-      border-bottom: 1px solid #e5e7eb;
-      display: flex; align-items: center; justify-content: space-between;
-    }
-    .modal-header h2 { font-size: 15px; font-weight: 700; }
-    .modal-close {
-      background: none; border: none; font-size: 20px;
-      color: #888; cursor: pointer; line-height: 1;
-    }
-    .modal-body { padding: 16px 20px; overflow-y: auto; flex: 1; }
-    .modal-footer {
-      padding: 14px 20px;
-      border-top: 1px solid #e5e7eb;
-      display: flex; justify-content: flex-end; gap: 8px;
-    }
-
-    /* 병원 카드 */
-    .hospital-card {
-      border: 1px solid #e5e7eb; border-radius: 8px;
-      padding: 12px 14px; margin-bottom: 10px;
-      background: #fafafa;
-    }
-    .hospital-card-header {
-      display: flex; align-items: center; gap: 8px; margin-bottom: 8px;
-    }
-    .hospital-card-header input {
-      flex: 1; font-weight: 600; font-size: 13px;
-    }
-    .btn-remove-hospital {
-      background: none; border: none; color: #e53e3e;
-      font-size: 18px; cursor: pointer; line-height: 1; padding: 0 4px;
-    }
-    .kw-list { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
-    .kw-chip {
-      display: flex; align-items: center; gap: 4px;
-      background: #ede9fe; color: #5b21b6;
-      border-radius: 14px; padding: 3px 10px; font-size: 12px;
-    }
-    .kw-chip button {
-      background: none; border: none; color: #7c3aed;
-      cursor: pointer; font-size: 13px; line-height: 1; padding: 0;
-    }
-    .kw-add-row { display: flex; gap: 6px; }
-    .kw-add-row input { flex: 1; font-size: 12px; padding: 5px 8px; }
-    .btn-add-kw {
-      padding: 5px 10px; background: #ede9fe; color: #5b21b6;
-      border: none; border-radius: 6px; font-size: 12px;
-      cursor: pointer; font-weight: 600; white-space: nowrap;
-    }
-    .btn-add-kw:hover { background: #ddd6fe; }
-
-    .btn-add-hospital {
-      width: 100%; padding: 10px; border: 2px dashed #d1d5db;
-      border-radius: 8px; background: none; color: #888;
-      font-size: 13px; cursor: pointer; margin-top: 4px;
-    }
-    .btn-add-hospital:hover { border-color: #1a56db; color: #1a56db; }
 
     /* toast */
     #toast {
@@ -335,7 +299,7 @@
 <body>
 
 <header>
-  <h1>[엠에이디씨] 🏥 병원 부정글 모니터링</h1>
+  <h1>🏥 병원 부정글 모니터링</h1>
   <span class="meta" id="last-run-label">마지막 수집: -</span>
 </header>
 
@@ -351,32 +315,32 @@
   </div>
 </div>
 
-<!-- 컨트롤 -->
-<div class="controls">
-  <select id="filter-hospital">
-    <option value="">전체 병원</option>
-  </select>
-  <select id="filter-source">
-    <option value="">전체 출처</option>
-    <option value="여우야">여우야</option>
-    <option value="성형위키">성형위키</option>
-    <option value="여우야+">여우야+</option>
-    <option value="재잘재잘">재잘재잘</option>
-    <option value="가아사">가아사</option>
-    <option value="웨딩킹">웨딩킹</option>
-  </select>
-  <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
-    <input type="checkbox" id="filter-new"> 신규만 보기
+<!-- 검색바 -->
+<div class="search-bar">
+  <div class="search-inputs">
+    <input id="search-hospital" placeholder="🏥 병원명 검색..." oninput="loadArticles()">
+    <div class="search-divider"></div>
+    <input id="search-keyword" placeholder="🔍 이름, 수술, 원장, 닉네임..." oninput="loadArticles()">
+  </div>
+  <label class="new-label">
+    <input type="checkbox" id="filter-new" onchange="loadArticles()"> 신규만 보기
   </label>
-  <button class="btn btn-gray btn-sm" onclick="loadArticles()">🔍 적용</button>
-  <div style="flex:1"></div>
   <button class="btn btn-green" id="collect-btn" onclick="startCollect()">▶ 지금 수집하기</button>
-  <button class="btn btn-primary" style="min-width:100px" onclick="openHospitalModal()">⚙ 병원 관리</button>
-  <button class="btn btn-gray" style="min-width:100px" onclick="markSeen()">✔ 전체 확인 처리</button>
+  <button class="btn btn-gray" onclick="markSeen()">✔ 전체 확인 처리</button>
+</div>
+
+<!-- 플랫폼 탭 -->
+<div class="tabs" id="platform-tabs">
+  <button class="tab active" data-source="" onclick="switchTab(this)">전체</button>
+  <button class="tab" data-source="여우야" onclick="switchTab(this)">여우야</button>
+  <button class="tab" data-source="성형위키" onclick="switchTab(this)">성형위키</button>
+  <button class="tab" data-source="재잘재잘" onclick="switchTab(this)">재잘재잘</button>
+  <button class="tab" data-source="가아사" onclick="switchTab(this)">가아사</button>
+  <button class="tab" data-source="웨딩킹" onclick="switchTab(this)">웨딩킹</button>
 </div>
 
 <!-- 테이블 -->
-<div class="table-wrap">
+<div class="table-wrap" style="margin-top:0; border-radius:0 0 10px 10px;">
   <table>
     <thead>
       <tr>
@@ -394,21 +358,6 @@
   <div class="empty" id="empty-msg" style="display:none">수집된 데이터가 없습니다.</div>
 </div>
 
-<!-- 병원 관리 모달 -->
-<div class="modal-bg" id="hospital-modal">
-  <div class="modal">
-    <div class="modal-header">
-      <h2>⚙ 병원 관리</h2>
-      <button class="modal-close" onclick="closeHospitalModal()">✕</button>
-    </div>
-    <div class="modal-body" id="hospital-list"></div>
-    <div class="modal-footer">
-      <button class="btn btn-gray btn-sm" onclick="closeHospitalModal()">취소</button>
-      <button class="btn btn-primary" onclick="saveHospitals()">저장</button>
-    </div>
-  </div>
-</div>
-
 <!-- 로딩 오버레이 -->
 <div id="overlay">
   <div class="spinner-box">
@@ -421,6 +370,10 @@
 <div id="toast"></div>
 
 <script>
+  const PLATFORMS = ['여우야', '성형위키', '재잘재잘', '가아사', '웨딩킹'];
+  let activeSource = '';
+  let allArticles = [];
+
   const SOURCE_BADGE = {
     blog:  '<span class="badge badge-blog">블로그</span>',
     place: '<span class="badge badge-place">플레이스</span>',
@@ -440,28 +393,51 @@
     }
   }
 
-  async function loadHospitals() {
-    const hospitals = await fetch('/api/hospitals').then(r => r.json());
-    const sel = document.getElementById('filter-hospital');
-    hospitals.forEach(h => {
-      const opt = document.createElement('option');
-      opt.value = h; opt.textContent = h;
-      sel.appendChild(opt);
-    });
-  }
-
   async function loadArticles() {
-    const hospital = document.getElementById('filter-hospital').value;
-    const source   = document.getElementById('filter-source').value;
+    const hospital = document.getElementById('search-hospital').value.trim();
+    const keyword  = document.getElementById('search-keyword').value.trim();
     const onlyNew  = document.getElementById('filter-new').checked ? '1' : '';
 
     const params = new URLSearchParams();
     if (hospital) params.set('hospital', hospital);
-    if (source)   params.set('source', source);
     if (onlyNew)  params.set('only_new', onlyNew);
 
-    const articles = await fetch('/api/articles?' + params).then(r => r.json());
-    renderTable(articles);
+    allArticles = await fetch('/api/articles?' + params).then(r => r.json());
+
+    // 키워드 클라이언트 필터
+    let filtered = allArticles;
+    if (keyword) {
+      const kw = keyword.toLowerCase();
+      filtered = filtered.filter(a =>
+        (a.keyword || '').toLowerCase().includes(kw) ||
+        (a.title || '').toLowerCase().includes(kw) ||
+        (a.description || '').toLowerCase().includes(kw)
+      );
+    }
+
+    updateTabCounts(allArticles);
+    renderTable(filtered.filter(a => !activeSource || a.source === activeSource));
+  }
+
+  function updateTabCounts(articles) {
+    document.querySelectorAll('.tab').forEach(tab => {
+      const src = tab.dataset.source;
+      const count = src ? articles.filter(a => a.source === src).length : articles.length;
+      let countEl = tab.querySelector('.tab-count');
+      if (!countEl) {
+        countEl = document.createElement('span');
+        countEl.className = 'tab-count';
+        tab.appendChild(countEl);
+      }
+      countEl.textContent = count;
+    });
+  }
+
+  function switchTab(el) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    activeSource = el.dataset.source;
+    loadArticles();
   }
 
   const NEG_KEYWORDS = [
@@ -516,11 +492,11 @@
         : a._neg >= 1
           ? '<span class="badge badge-neg-warn">주의</span>'
           : '';
-      const badge = sourceBadge(a.source);
-      const kwTag = a.keyword ? `<span class="keyword-tag">${escHtml(a.keyword)}</span>` : '';
-      const desc  = a.description ? `<div class="desc">${sortedDesc(a.description)}</div>` : '';
-      const pub   = (a.published_at || '').slice(0, 10);
-      const col   = (a.collected_at || '').slice(0, 10);
+      const badge  = sourceBadge(a.source);
+      const kwTag  = a.keyword ? `<span class="keyword-tag">${escHtml(a.keyword)}</span>` : '';
+      const desc   = a.description ? `<div class="desc">${sortedDesc(a.description)}</div>` : '';
+      const pub    = (a.published_at || '').slice(0, 10);
+      const col    = (a.collected_at || '').slice(0, 10);
 
       return `<tr class="${a.is_new ? 'is-new' : ''}${a._neg >= 1 ? ' is-neg' : ''}">
         <td>${isNew}${negBadge}</td>
@@ -541,26 +517,6 @@
     return String(str || '')
       .replace(/&/g,'&amp;').replace(/</g,'&lt;')
       .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-  }
-
-  function copyReport(btn, a) {
-    const text =
-`모니터링 중 ${a.hospital} 관련 부정글 발견되어 공유드립니다.
-
-출처: ${a.source === 'cafe' ? '네이버 카페' : a.source === 'blog' ? '네이버 블로그' : '네이버 플레이스'}
-키워드: ${a.keyword || a.hospital}
-제목: ${a.title}
-링크: ${a.link}
-게시일: ${a.published_at || ''}
-
-내용 요약:
-${a.description || ''}`;
-
-    navigator.clipboard.writeText(text).then(() => {
-      btn.textContent = '✓ 복사됨';
-      btn.classList.add('copied');
-      setTimeout(() => { btn.textContent = '복사'; btn.classList.remove('copied'); }, 2000);
-    });
   }
 
   let collectPoll = null;
@@ -641,7 +597,6 @@ ${a.description || ''}`;
   // 초기 로드
   (async () => {
     await loadStats();
-    await loadHospitals();
     await loadArticles();
     initColResize();
   })();
@@ -676,105 +631,6 @@ ${a.description || ''}`;
         e.preventDefault();
       });
     });
-  }
-
-  // ── 병원 관리 모달 ──────────────────────────────────────
-  let modalData = [];  // [{name, keywords:[]}]
-
-  async function openHospitalModal() {
-    try {
-      modalData = await fetch('/api/config/hospitals').then(r => r.json());
-    } catch {
-      modalData = [];
-    }
-    renderHospitalList();
-    document.getElementById('hospital-modal').classList.add('show');
-  }
-
-  function closeHospitalModal() {
-    document.getElementById('hospital-modal').classList.remove('show');
-  }
-
-  function renderHospitalList() {
-    const el = document.getElementById('hospital-list');
-    if (!modalData.length) {
-      el.innerHTML = '<p style="color:#aaa;text-align:center;padding:24px">등록된 병원이 없습니다.</p>';
-    } else {
-      el.innerHTML = modalData.map((h, hi) => `
-        <div class="hospital-card">
-          <div class="hospital-card-header">
-            <input value="${escHtml(h.name)}" placeholder="병원명"
-              oninput="modalData[${hi}].name=this.value">
-            <button class="btn-remove-hospital" onclick="removeHospital(${hi})" title="병원 삭제">✕</button>
-          </div>
-          <div class="kw-list" id="kw-list-${hi}">
-            ${h.keywords.map((kw, ki) => `
-              <span class="kw-chip">
-                ${escHtml(kw)}
-                <button onclick="removeKeyword(${hi},${ki})">✕</button>
-              </span>`).join('')}
-          </div>
-          <div class="kw-add-row">
-            <input id="kw-input-${hi}" placeholder="키워드 추가 (예: ㄹㅌ, 원장명)"
-              onkeydown="if(event.key==='Enter')addKeyword(${hi})">
-            <button class="btn-add-kw" onclick="addKeyword(${hi})">+ 추가</button>
-          </div>
-        </div>`).join('');
-    }
-    el.innerHTML += `<button class="btn-add-hospital" onclick="addHospital()">+ 병원 추가</button>`;
-  }
-
-  function addHospital() {
-    modalData.push({ name: '', keywords: [] });
-    renderHospitalList();
-    // 새로 추가된 병원명 input에 포커스
-    const inputs = document.querySelectorAll('.hospital-card-header input');
-    if (inputs.length) inputs[inputs.length - 1].focus();
-  }
-
-  function removeHospital(hi) {
-    if (!confirm(`"${modalData[hi].name || '이 병원'}"을 삭제할까요?`)) return;
-    modalData.splice(hi, 1);
-    renderHospitalList();
-  }
-
-  function addKeyword(hi) {
-    const inp = document.getElementById(`kw-input-${hi}`);
-    const kw = inp.value.trim();
-    if (!kw) return;
-    if (!modalData[hi].keywords.includes(kw)) {
-      modalData[hi].keywords.push(kw);
-      renderHospitalList();
-      // 추가 후 같은 병원 input에 포커스 유지
-      const nextInp = document.getElementById(`kw-input-${hi}`);
-      if (nextInp) nextInp.focus();
-    } else {
-      inp.value = '';
-    }
-  }
-
-  function removeKeyword(hi, ki) {
-    modalData[hi].keywords.splice(ki, 1);
-    renderHospitalList();
-  }
-
-  async function saveHospitals() {
-    // 빈 병원명 검증
-    const invalid = modalData.find(h => !h.name.trim());
-    if (invalid) { showToast('병원명을 입력해주세요'); return; }
-
-    await fetch('/api/config/hospitals', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ hospitals: modalData }),
-    });
-
-    closeHospitalModal();
-    // 필터 드롭다운 갱신
-    const sel = document.getElementById('filter-hospital');
-    sel.innerHTML = '<option value="">전체 병원</option>';
-    await loadHospitals();
-    showToast('저장 완료!');
   }
 </script>
 </body>
