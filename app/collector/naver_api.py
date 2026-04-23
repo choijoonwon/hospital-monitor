@@ -27,7 +27,7 @@ def _parse_date(raw: str) -> str:
 
 
 def _fetch_keyword(keyword: str, hospital_name: str, client_id: str,
-                   client_secret: str, targets: list,
+                   client_secret: str, targets: list, target_cafes: list,
                    max_results: int, delay_min: float, delay_max: float) -> list:
     headers = {
         "X-Naver-Client-Id": client_id,
@@ -49,16 +49,33 @@ def _fetch_keyword(keyword: str, hospital_name: str, client_id: str,
         try:
             resp = requests.get(url, headers=headers, params=params, timeout=10)
             resp.raise_for_status()
-            items = resp.json().get("items", [])
+            data = resp.json()
+            items = data.get("items", [])
+            print(f"  [API 응답] status={resp.status_code} total={data.get('total', 0)} items={len(items)}")
+            if not items and data.get("errorCode"):
+                print(f"  [API 에러] {data}")
         except Exception as e:
             print(f"[API 오류] {keyword} / {target}: {e}")
             items = []
 
+        if target == "cafe" and items:
+            cafenames = set(item.get("cafename", "") for item in items)
+            print(f"  [카페명 목록] {cafenames}")
+
         for item in items:
+            if target == "cafe":
+                cafename = item.get("cafename", "")
+                matched = next((t for t in target_cafes if t in cafename), None)
+                if target_cafes and not matched:
+                    continue
+                source = matched or cafename or "cafe"
+            else:
+                source = target
+
             results.append({
                 "hospital": hospital_name,
                 "keyword": keyword,
-                "source": target,
+                "source": source,
                 "title": _strip_tags(item.get("title", "")),
                 "link": item.get("link", item.get("url", "")),
                 "description": _strip_tags(item.get("description", ""))[:300],
@@ -73,12 +90,9 @@ def _fetch_keyword(keyword: str, hospital_name: str, client_id: str,
 
 
 def fetch_hospital(hospital: dict, client_id: str, client_secret: str,
-                   targets: list, max_results: int = 30,
+                   targets: list, target_cafes: list = None,
+                   max_results: int = 30,
                    delay_min: float = 2.0, delay_max: float = 5.0) -> list:
-    """
-    hospital = {"name": str, "keywords": [str, ...]}
-    병원의 모든 키워드 변형으로 검색 후 합산 결과 반환.
-    """
     all_results = []
     for kw in hospital.get("keywords", [hospital.get("name", "")]):
         results = _fetch_keyword(
@@ -87,6 +101,7 @@ def fetch_hospital(hospital: dict, client_id: str, client_secret: str,
             client_id=client_id,
             client_secret=client_secret,
             targets=targets,
+            target_cafes=target_cafes or [],
             max_results=max_results,
             delay_min=delay_min,
             delay_max=delay_max,

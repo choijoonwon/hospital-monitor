@@ -1,20 +1,40 @@
 {
-  "naver_client_id": "YOUR_NAVER_CLIENT_ID",
-  "naver_client_secret": "YOUR_NAVER_CLIENT_SECRET",
+  "naver_client_id": "tcmY4yBm9CAWVkOANGqk",
+  "naver_client_secret": "rU56BDIVBD",
   "hospitals": [
     {
-      "name": "리팅성형외과",
-      "keywords": ["리팅성형외과", "ㄹㅌ", "리팅", "000원장"]
+      "keywords": [
+        "리팅성형외과",
+        "ㄹㅌ",
+        "리팅",
+        "000원장"
+      ],
+      "name": "리팅성형외과"
     },
     {
-      "name": "강남 피부과",
-      "keywords": ["강남피부과", "강남 피부과"]
+      "keywords": [
+        "강남피부과",
+        "강남 피부과"
+      ],
+      "name": "강남 피부과"
+    },
+    {
+      "name": "투비성형외과",
+      "keywords": [
+        "투비",
+        "투비셩형외과"
+      ]
     }
   ],
-  "search_targets": ["cafe", "blog"],
+  "search_targets": [
+    "cafe"
+  ],
   "target_cafes": [
-    "성예사",
-    "여우야"
+    "여우야",
+    "성형위키",
+    "재잘재잘",
+    "가아사",
+    "웨딩킹"
   ],
   "max_results_per_keyword": 30,
   "delay_min": 2,

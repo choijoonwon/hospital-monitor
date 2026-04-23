@@ -78,6 +78,10 @@ def finish_run(run_id: int, new_count: int):
         )
 
 
+def mark_seen(article_id: int):
+    with _conn() as con:
+        con.execute("UPDATE articles SET is_new=0 WHERE id=?", (article_id,))
+
 def mark_all_seen():
     with _conn() as con:
         con.execute("UPDATE articles SET is_new=0 WHERE is_new=1")

@@ -14,6 +14,7 @@ from app.collector import naver_selenium
 CONFIG_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), "config.json")
 
 flask_app = Flask(__name__)
+flask_app.config['TEMPLATES_AUTO_RELOAD'] = True
 
 
 def load_config() -> dict:
@@ -44,6 +45,7 @@ def run_collection():
             client_id=client_id,
             client_secret=client_secret,
             targets=targets,
+            target_cafes=cfg.get("target_cafes", []),
             max_results=max_results,
             delay_min=delay_min,
             delay_max=delay_max,
@@ -112,7 +114,12 @@ def api_collect():
 
 @flask_app.route("/api/mark_seen", methods=["POST"])
 def api_mark_seen():
-    db.mark_all_seen()
+    data = request.get_json(silent=True) or {}
+    article_id = data.get("id")
+    if article_id:
+        db.mark_seen(article_id)
+    else:
+        db.mark_all_seen()
     return jsonify({"status": "ok"})
 
 
