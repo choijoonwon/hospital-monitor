@@ -49,11 +49,15 @@
 
     /* ── 검색바 ── */
     .search-bar {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 8px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
       padding: 16px 24px 0;
+    }
+    .search-row {
+      display: flex;
       align-items: center;
+      gap: 10px;
     }
     .search-input-box {
       display: flex;
@@ -316,19 +320,16 @@
 
 <!-- 검색바 -->
 <div class="search-bar">
-  <!-- 1행: 병원명 -->
-  <div class="search-input-box">
-    <span class="input-icon">🏥</span>
-    <input id="search-hospital" placeholder="병원명 검색..." oninput="loadArticles()">
+  <!-- 1행: 통합 검색 + 수집하기 -->
+  <div class="search-row">
+    <div class="search-input-box">
+      <span class="input-icon">🔍</span>
+      <input id="search-query" placeholder="예) 리팅 / 부작용 / 코수술 / 환불" oninput="loadArticles()">
+    </div>
+    <button class="btn btn-green" id="collect-btn" onclick="startCollect()">▶ 지금 수집하기</button>
   </div>
-  <button class="btn btn-green" id="collect-btn" onclick="startCollect()">▶ 지금 수집하기</button>
-
-  <!-- 2행: 키워드 -->
-  <div class="search-input-box">
-    <span class="input-icon">🔍</span>
-    <input id="search-keyword" placeholder="이름, 수술명, 원장, 닉네임..." oninput="loadArticles()">
-  </div>
-  <div class="search-actions">
+  <!-- 2행: 신규만 보기 + 전체 확인 처리 -->
+  <div class="search-row">
     <label class="new-label">
       <input type="checkbox" id="filter-new" onchange="loadArticles()"> 신규만 보기
     </label>
@@ -401,28 +402,27 @@
   }
 
   async function loadArticles() {
-    const hospital = document.getElementById('search-hospital').value.trim();
-    const keyword  = document.getElementById('search-keyword').value.trim();
-    const onlyNew  = document.getElementById('filter-new').checked ? '1' : '';
+    const query   = document.getElementById('search-query').value.trim();
+    const onlyNew = document.getElementById('filter-new').checked ? '1' : '';
 
     const params = new URLSearchParams();
-    if (hospital) params.set('hospital', hospital);
-    if (onlyNew)  params.set('only_new', onlyNew);
+    if (onlyNew) params.set('only_new', onlyNew);
 
     allArticles = await fetch('/api/articles?' + params).then(r => r.json());
 
-    // 키워드 클라이언트 필터
+    // 통합 검색: 병원명 · 키워드태그 · 제목 · 내용 전체에서 필터
     let filtered = allArticles;
-    if (keyword) {
-      const kw = keyword.toLowerCase();
+    if (query) {
+      const q = query.toLowerCase();
       filtered = filtered.filter(a =>
-        (a.keyword || '').toLowerCase().includes(kw) ||
-        (a.title || '').toLowerCase().includes(kw) ||
-        (a.description || '').toLowerCase().includes(kw)
+        (a.hospital     || '').toLowerCase().includes(q) ||
+        (a.keyword      || '').toLowerCase().includes(q) ||
+        (a.title        || '').toLowerCase().includes(q) ||
+        (a.description  || '').toLowerCase().includes(q)
       );
     }
 
-    updateTabCounts(allArticles);
+    updateTabCounts(filtered);
     renderTable(filtered.filter(a => !activeSource || a.source === activeSource));
   }
 
