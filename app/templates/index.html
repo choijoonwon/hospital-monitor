@@ -49,15 +49,11 @@
 
     /* ── 검색바 ── */
     .search-bar {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px 10px;
       padding: 16px 24px 0;
-    }
-    .search-row {
-      display: flex;
       align-items: center;
-      gap: 10px;
     }
     .search-input-box {
       display: flex;
@@ -320,20 +316,19 @@
 
 <!-- 검색바 -->
 <div class="search-bar">
-  <!-- 1행: 병원명 + 수집하기 -->
-  <div class="search-row">
-    <div class="search-input-box">
-      <span class="input-icon">🏥</span>
-      <input id="search-hospital" placeholder="병원명 검색..." oninput="loadArticles()">
-    </div>
-    <button class="btn btn-green" id="collect-btn" onclick="startCollect()">▶ 지금 수집하기</button>
+  <!-- 1행: 병원명 -->
+  <div class="search-input-box">
+    <span class="input-icon">🏥</span>
+    <input id="search-hospital" placeholder="병원명 검색..." oninput="loadArticles()">
   </div>
-  <!-- 2행: 키워드 + 신규만 보기 + 전체 확인 처리 -->
-  <div class="search-row">
-    <div class="search-input-box">
-      <span class="input-icon">🔍</span>
-      <input id="search-keyword" placeholder="이름, 수술명, 원장, 닉네임..." oninput="loadArticles()">
-    </div>
+  <button class="btn btn-green" id="collect-btn" onclick="startCollect()">▶ 지금 수집하기</button>
+
+  <!-- 2행: 키워드 -->
+  <div class="search-input-box">
+    <span class="input-icon">🔍</span>
+    <input id="search-keyword" placeholder="이름, 수술명, 원장, 닉네임..." oninput="loadArticles()">
+  </div>
+  <div class="search-actions">
     <label class="new-label">
       <input type="checkbox" id="filter-new" onchange="loadArticles()"> 신규만 보기
     </label>
