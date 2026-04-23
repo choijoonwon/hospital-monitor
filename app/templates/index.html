@@ -610,7 +610,17 @@ ${a.description || ''}`;
       body: JSON.stringify({ id }),
     });
     const row = el.closest('tr');
-    if (row) { row.classList.remove('is-new'); }
+    if (row) {
+      row.classList.remove('is-new');
+      const statusCell = row.querySelector('td:first-child');
+      if (statusCell) {
+        const newBadge = statusCell.querySelector('.badge-new');
+        if (newBadge) newBadge.remove();
+        if (!statusCell.textContent.includes('확인됨')) {
+          statusCell.insertAdjacentText('afterbegin', '확인됨 ');
+        }
+      }
+    }
     await loadStats();
   }
 
