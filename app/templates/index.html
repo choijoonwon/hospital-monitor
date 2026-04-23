@@ -387,7 +387,6 @@
         <th>제목 / 내용</th>
         <th style="width:100px">게시일</th>
         <th style="width:100px">수집일</th>
-        <th style="width:80px">바로가기</th>
       </tr>
     </thead>
     <tbody id="tbody"></tbody>
@@ -529,14 +528,11 @@
         <td>${badge}</td>
         <td>${kwTag}</td>
         <td class="title-cell">
-          <a href="${escHtml(a.link)}" target="_blank" rel="noopener">${escHtml(a.title)}</a>
+          <a href="${escHtml(a.link)}" target="_blank" rel="noopener" onclick="markOneSeen(${a.id}, this)">${escHtml(a.title)}</a>
           ${desc}
         </td>
         <td>${pub}</td>
         <td>${col}</td>
-        <td>
-          <a href="${escHtml(a.link)}" target="_blank" rel="noopener" class="copy-btn" style="text-decoration:none" onclick="markOneSeen(${a.id}, this)">↗ 이동</a>
-        </td>
       </tr>`;
     }).join('');
   }
