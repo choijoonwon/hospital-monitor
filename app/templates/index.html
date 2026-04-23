@@ -50,36 +50,39 @@
     /* ── 검색바 ── */
     .search-bar {
       display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 16px 24px 0;
+    }
+    .search-row {
+      display: flex;
       align-items: center;
       gap: 10px;
-      padding: 16px 24px 0;
-      flex-wrap: wrap;
     }
-    .search-inputs {
+    .search-input-box {
       display: flex;
-      gap: 8px;
-      flex: 1;
       align-items: center;
+      flex: 1;
       background: #fff;
       border: 1.5px solid #d1d5db;
       border-radius: 10px;
-      padding: 6px 12px;
+      padding: 6px 14px;
       box-shadow: 0 1px 4px rgba(0,0,0,.06);
-      min-width: 300px;
     }
-    .search-inputs:focus-within { border-color: #1a56db; }
-    .search-inputs input {
+    .search-input-box:focus-within { border-color: #1a56db; }
+    .search-input-box .input-icon {
+      font-size: 14px;
+      margin-right: 8px;
+      flex-shrink: 0;
+    }
+    .search-input-box input {
       border: none;
       outline: none;
       font-size: 13px;
-      padding: 5px 8px;
+      padding: 5px 0;
       background: transparent;
       flex: 1;
-    }
-    .search-divider {
-      width: 1px;
-      height: 20px;
-      background: #e5e7eb;
+      min-width: 0;
     }
     .search-actions {
       display: flex;
@@ -317,16 +320,25 @@
 
 <!-- 검색바 -->
 <div class="search-bar">
-  <div class="search-inputs">
-    <input id="search-hospital" placeholder="🏥 병원명 검색..." oninput="loadArticles()">
-    <div class="search-divider"></div>
-    <input id="search-keyword" placeholder="🔍 이름, 수술, 원장, 닉네임..." oninput="loadArticles()">
+  <!-- 1행: 병원명 + 수집하기 -->
+  <div class="search-row">
+    <div class="search-input-box">
+      <span class="input-icon">🏥</span>
+      <input id="search-hospital" placeholder="병원명 검색..." oninput="loadArticles()">
+    </div>
+    <button class="btn btn-green" id="collect-btn" onclick="startCollect()">▶ 지금 수집하기</button>
   </div>
-  <label class="new-label">
-    <input type="checkbox" id="filter-new" onchange="loadArticles()"> 신규만 보기
-  </label>
-  <button class="btn btn-green" id="collect-btn" onclick="startCollect()">▶ 지금 수집하기</button>
-  <button class="btn btn-gray" onclick="markSeen()">✔ 전체 확인 처리</button>
+  <!-- 2행: 키워드 + 신규만 보기 + 전체 확인 처리 -->
+  <div class="search-row">
+    <div class="search-input-box">
+      <span class="input-icon">🔍</span>
+      <input id="search-keyword" placeholder="이름, 수술명, 원장, 닉네임..." oninput="loadArticles()">
+    </div>
+    <label class="new-label">
+      <input type="checkbox" id="filter-new" onchange="loadArticles()"> 신규만 보기
+    </label>
+    <button class="btn btn-gray" onclick="markSeen()">✔ 전체 확인 처리</button>
+  </div>
 </div>
 
 <!-- 플랫폼 탭 -->
